@@ -13,6 +13,10 @@ var SatisfactionSurveySchema = new Schema({
     required : 'Email address is mandatory'
 
   },
+  token: {
+    type: String,
+    required: 'Firebase token is mandatory'
+  },
   rating: {
     type : String,
     required : 'Rating is mandatory'
