@@ -11,8 +11,7 @@ var FirebaseTokenSchema = new Schema({
   token: {
     type : String,
     required : 'Firebase token is mandatory'
-
-  }
+  },
   submissionDate: {
       type: Date,
       default: Date.now
