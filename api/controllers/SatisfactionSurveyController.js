@@ -10,7 +10,7 @@ exports.saveSurvey = function(req, res) {
     if (err)
       res.send(err);
     else
-      res.json(survey);
+      res.json({data: survey});
   });
 };
 
@@ -19,7 +19,7 @@ exports.getAppSurveys = function(req, res) {
     if (err)
       res.send(err);
     else {
-      res.json(survey);
+      res.json({data: survey});
     }
   });
 }

@@ -10,7 +10,7 @@ exports.save_token = function(req, res) {
     if (err)
       res.send(err);
     else
-      res.json(token);
+      res.json({data: token});
   });
 };
 
@@ -19,7 +19,7 @@ exports.get_tokens = function(req, res) {
     if (err)
       res.send(err);
     else {
-      res.json(tokens);
+      res.json({data: tokens});
     }
   });
 };
