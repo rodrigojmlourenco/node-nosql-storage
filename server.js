@@ -2,7 +2,6 @@ var express = require('express'),
   app = express(),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
-  SatisfactionSurvey = require('./api/models/SatisfactionSurveyModel'),
   bodyParser = require('body-parser'),
   options = {
     //useMongoClient: true,
@@ -15,6 +14,9 @@ var express = require('express'),
       authdb: 'admin'
     }
   };
+
+var SatisfactionSurvey  = require('./api/models/SatisfactionSurveyModel'),
+    FirebaseToken       = require('./api/models/FirebaseTokenModel');
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/mate', options)
