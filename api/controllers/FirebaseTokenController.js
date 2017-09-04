@@ -5,6 +5,11 @@ var FirebaseTokens = mongoose.model('FirebaseTokens');
 var admin = require('firebase-admin');
 var serviceAccount = require("../../keys/serviceAccountKey.json");
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://inw-vodafone-mate.firebaseio.com"
+});
+
 exports.save_token = function(req, res) {
   var token = new FirebaseTokens(req.body)
 
@@ -27,19 +32,19 @@ exports.get_tokens = function(req, res) {
 };
 
 exports.test_send = function(req, res) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://inw-vodafone-mate.firebaseio.com"
-  });
 
-  var payload = {
+  var to = req.body;
+  console.log(to);
+  res.send(to);
+
+  /*
+  payload = {
     data: {
       RATE_APP: "true"
     }
   };
 
-  var to = req.body;
-  console.log(to);
+
 
   fcmAdmin.messaging().sendToDevice(to, payload, {})
     .then(function(response) {
@@ -50,4 +55,5 @@ exports.test_send = function(req, res) {
       console.log("Error sending message:", error);
       res.send(error);
     });
+    */
 }
