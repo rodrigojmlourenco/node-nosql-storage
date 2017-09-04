@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var FirebaseTokens = mongoose.model('FirebaseTokens');
 var admin = require('firebase-admin');
-var serviceAccount = require("./keys/serviceAccountKey.json"),
+var serviceAccount = require("./keys/serviceAccountKey.json");
 
 exports.save_token = function(req, res) {
   var token = new FirebaseTokens(req.body)
@@ -41,8 +41,10 @@ exports.test_send = function(req, res) {
   fcmAdmin.messaging().sendToDevice(req.params.to, payload, {})
     .then(function(response) {
       console.log("Successfully sent message:", response);
+      res.send(response);
     })
     .catch(function(error) {
       console.log("Error sending message:", error);
+      res.send(error);
     });
 }
