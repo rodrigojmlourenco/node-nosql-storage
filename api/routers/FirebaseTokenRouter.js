@@ -6,7 +6,7 @@ module.exports = function(app) {
   app.route("/token")
     .post(firebaseTokens.save_token);
 
-  app.route("token/to")
+  app.route("/token/to")
     .post(firebaseTokens.test_send);
 
   app.route("/token/:appId")

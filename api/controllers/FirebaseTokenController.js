@@ -32,21 +32,15 @@ exports.get_tokens = function(req, res) {
 };
 
 exports.test_send = function(req, res) {
-
   var to = req.body;
-  console.log(to);
-  res.send(to);
-
-  /*
-  payload = {
+  
+  var payload = {
     data: {
       RATE_APP: "true"
     }
   };
 
-
-
-  fcmAdmin.messaging().sendToDevice(to, payload, {})
+  admin.messaging().sendToDevice(to.token, payload, {})
     .then(function(response) {
       console.log("Successfully sent message:", response);
       res.send(response);
@@ -55,5 +49,4 @@ exports.test_send = function(req, res) {
       console.log("Error sending message:", error);
       res.send(error);
     });
-    */
 }
