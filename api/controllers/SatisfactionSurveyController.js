@@ -3,6 +3,13 @@
 var mongoose = require('mongoose');
 var SatisfactionSurvey = mongoose.model('SatisfactionSurveys');
 
+
+SatisfactionSurvey.byApp = function(appId){
+  return this.find( { app : appId });
+};
+
+
+
 exports.saveSurvey = function(req, res) {
   var new_survey = new SatisfactionSurvey(req.body)
 

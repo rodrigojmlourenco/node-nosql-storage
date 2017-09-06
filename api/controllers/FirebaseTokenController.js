@@ -2,8 +2,39 @@
 
 var mongoose = require('mongoose');
 var FirebaseTokens = mongoose.model('FirebaseTokens');
+var SatisfactionSurvey = mongoose.model('SatisfactionSurveys');
 var admin = require('firebase-admin');
 var serviceAccount = require("../../keys/serviceAccountKey.json");
+
+function fetchParticipantTokens(appId, callback) {
+  SatisfactionSurvey
+    .aggregate([{
+        $match: {
+          app: appId,
+          token: {
+            $exists: true
+          }
+        }
+      },
+      {
+        $project: {
+          token: 1
+        }
+      }
+    ])
+    .exec(callback);
+};
+
+function fetchTokensDifference(appId, tokens, callback) {
+  FirebaseTokens.find({
+    app: appId,
+    token: {
+      $nin: tokens
+    }
+  }, {
+    token: 1
+  }).exec(callback);
+}
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -17,36 +48,64 @@ exports.save_token = function(req, res) {
     if (err)
       res.send(err);
     else
-      res.json({data: token});
+      res.json({
+        data: token
+      });
   });
 };
 
 exports.get_tokens = function(req, res) {
-  FirebaseTokens.find({ app: req.params.appId }, function(err, tokens) {
+  FirebaseTokens.find({
+    app: req.params.appId
+  }, function(err, tokens) {
     if (err)
       res.send(err);
     else {
-      res.json({data: tokens});
+      res.json({
+        data: tokens
+      });
     }
   });
 };
 
 exports.test_send = function(req, res) {
-  var to = req.body;
-  
-  var payload = {
-    data: {
-      RATE_APP: "true"
-    }
-  };
 
-  admin.messaging().sendToDevice(to.token, payload, {})
-    .then(function(response) {
-      console.log("Successfully sent message:", response);
-      res.send(response);
-    })
-    .catch(function(error) {
-      console.log("Error sending message:", error);
-      res.send(error);
-    });
+  fetchParticipantTokens(req.params.appId, function(err, rates) {
+    if (err)
+      res.send(err);
+    else {
+      var tokens = [];
+      rates.forEach(function(rate, index) {
+        tokens.push(rate.token);
+      });
+
+      fetchTokensDifference(req.params.appId, tokens, function(err, toks) {
+        if (err)
+          res.send(err);
+        else {
+
+          var payload = {
+            data: {
+              RATE_APP: "true"
+            }
+          };
+
+          var recipients = []
+          toks.forEach(function(ft, i) {
+            recipients.push(ft.token);
+          })
+
+          admin.messaging().sendToDevice(recipients, payload)
+            .then(function(response) {
+              console.log("Successfully sent message:", response);
+            })
+            .catch(function(error) {
+              console.log("Error sending message:", error);
+            });
+
+          res.send(recipients);
+        }
+      });
+    }
+  });
 }

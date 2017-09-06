@@ -18,4 +18,8 @@ var FirebaseTokenSchema = new Schema({
   }
 });
 
+FirebaseTokenSchema.query.byApp = function(appId) {
+  return this.find( { app : appId });
+};
+
 module.exports = mongoose.model('FirebaseTokens', FirebaseTokenSchema);

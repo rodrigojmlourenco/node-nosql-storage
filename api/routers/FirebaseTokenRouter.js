@@ -11,4 +11,7 @@ module.exports = function(app) {
 
   app.route("/token/:appId")
     .get(firebaseTokens.get_tokens);
+
+  app.route("/broadcast/rate/:appId")
+    .get(firebaseTokens.test_send);
 };
