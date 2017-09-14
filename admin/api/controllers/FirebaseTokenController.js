@@ -72,6 +72,7 @@ exports.get_tokens = function(req, res) {
 
 exports.sendTo = function(req, res) {
   console.log(req.body);
+  res.send(body)
 }
 
 exports.test_send = function(req, res) {
