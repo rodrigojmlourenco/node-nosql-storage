@@ -10,7 +10,11 @@ var FirebaseTokenSchema = new Schema({
   },
   token: {
     type : String,
-    required : 'Firebase token is mandatory'
+    required : 'Firebase token is mandatory',
+    index : {
+      unique: true,
+      dropDups: true
+    }
   },
   submissionDate: {
       type: Date,
