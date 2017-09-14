@@ -14,7 +14,8 @@ var FirebaseTokenSchema = new Schema({
     index : {
       unique: true,
       dropDups: true
-    }
+    },
+    unique: true
   },
   submissionDate: {
       type: Date,
