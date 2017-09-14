@@ -126,6 +126,8 @@ exports.notifyAllMissing = function(req, res) {
             recipients.push(ft.token);
           })
 
+          console.log(recipients);
+
           if (recipients.lenght <= 0) {
             console.log("[BROADCAST] No one to notify");
             res.send();
