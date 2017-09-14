@@ -124,16 +124,14 @@ exports.notifyAllMissing = function(req, res) {
           toks.forEach(function(ft, i) {
             console.log("[BROADCAST] Token "+ft.token+" has not sent survey.");
             recipients.push(ft.token);
-          })
+          });
 
-          console.log(recipients);
-
-          if (recipients.lenght <= 0) {
+          if (recipients.length = 0) {
             console.log("[BROADCAST] No one to notify");
             res.send();
             return;
           } else {
-            console.log("[BROADCAST] notifying " + recipients.lenght + " recipients");
+            console.log("[BROADCAST] notifying " + recipients.length + " recipients");
 
             admin.messaging().sendToDevice(recipients, payload)
               .then(function(response) {
