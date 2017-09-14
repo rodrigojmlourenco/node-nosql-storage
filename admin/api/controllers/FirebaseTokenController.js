@@ -70,7 +70,7 @@ exports.get_tokens = function(req, res) {
   });
 };
 
-exports.sendTo = function(req, res) {
+exports.notifyTo = function(req, res) {
   console.log(req.body);
   var tokenPayload = req.body;
   var payload = {
@@ -94,7 +94,7 @@ exports.sendTo = function(req, res) {
   }
 }
 
-exports.test_send = function(req, res) {
+exports.notifyAllMissing = function(req, res) {
 
   console.log("[PUSH] Sending rate broadcast to " + req.params.appId);
 
@@ -106,6 +106,12 @@ exports.test_send = function(req, res) {
       rates.forEach(function(rate, index) {
         tokens.push(rate.token);
       });
+
+      if(tokens.lenght <= 0){
+        console.log("[BROADCAST] No one to notify");
+        res.send();
+        return;
+      }
 
       fetchTokensDifference(req.params.appId, tokens, function(err, toks) {
         if (err)

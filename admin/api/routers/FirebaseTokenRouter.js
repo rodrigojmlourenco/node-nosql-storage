@@ -4,11 +4,11 @@ module.exports = function(app) {
   var firebaseTokens = require('../controllers/FirebaseTokenController');
 
   app.route("/token/to")
-    .post(firebaseTokens.sendTo);
+    .post(firebaseTokens.notifyTo);
 
   app.route("/token/:appId")
     .get(firebaseTokens.get_tokens);
 
   app.route("/broadcast/rate/:appId")
-    .post(firebaseTokens.test_send);
+    .post(firebaseTokens.notifyAllMissing);
 };
