@@ -107,12 +107,6 @@ exports.notifyAllMissing = function(req, res) {
         tokens.push(rate.token);
       });
 
-      if(tokens.lenght <= 0){
-        console.log("[BROADCAST] No one to notify");
-        res.send();
-        return;
-      }
-
       fetchTokensDifference(req.params.appId, tokens, function(err, toks) {
         if (err)
           res.send(err);
@@ -129,17 +123,23 @@ exports.notifyAllMissing = function(req, res) {
             recipients.push(ft.token);
           })
 
-          console.log("[PUSH] notifying " + recipients.lenght + " recipients");
+          if (recipients.lenght <= 0) {
+            console.log("[BROADCAST] No one to notify");
+            res.send();
+            return;
+          } else {
+            console.log("[BROADCAST] notifying " + recipients.lenght + " recipients");
 
-          admin.messaging().sendToDevice(recipients, payload)
-            .then(function(response) {
-              console.log("Successfully sent message:", response);
-            })
-            .catch(function(error) {
-              console.log("Error sending message:", error);
-            });
+            admin.messaging().sendToDevice(recipients, payload)
+              .then(function(response) {
+                console.log("Successfully sent message:", response);
+              })
+              .catch(function(error) {
+                console.log("Error sending message:", error);
+              });
 
-          res.send(recipients);
+            res.send(recipients);
+          }
         }
       });
     }
