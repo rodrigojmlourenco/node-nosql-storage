@@ -6,6 +6,11 @@ var SatisfactionSurvey = mongoose.model('SatisfactionSurveys');
 var admin = require('firebase-admin');
 var serviceAccount = require("../../keys/serviceAccountKey.json");
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://inw-vodafone-mate.firebaseio.com"
+});
+
 function fetchParticipantTokens(appId, callback) {
   SatisfactionSurvey
     .aggregate([{
@@ -36,10 +41,7 @@ function fetchTokensDifference(appId, tokens, callback) {
   }).exec(callback);
 }
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://inw-vodafone-mate.firebaseio.com"
-});
+
 
 exports.save_token = function(req, res) {
   var token = new FirebaseTokens(req.body)
@@ -67,6 +69,10 @@ exports.get_tokens = function(req, res) {
     }
   });
 };
+
+exports.sendTo = function(req, res) {
+  console.log(req.body);
+}
 
 exports.test_send = function(req, res) {
 

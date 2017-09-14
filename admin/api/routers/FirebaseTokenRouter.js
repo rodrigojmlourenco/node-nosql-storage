@@ -3,15 +3,12 @@
 module.exports = function(app) {
   var firebaseTokens = require('../controllers/FirebaseTokenController');
 
-  app.route("/token")
-    .post(firebaseTokens.save_token);
-
   app.route("/token/to")
-    .post(firebaseTokens.test_send);
+    .post(firebaseTokens.sendTo);
 
   app.route("/token/:appId")
     .get(firebaseTokens.get_tokens);
 
   app.route("/broadcast/rate/:appId")
-    .get(firebaseTokens.test_send);
+    .post(firebaseTokens.test_send);
 };
