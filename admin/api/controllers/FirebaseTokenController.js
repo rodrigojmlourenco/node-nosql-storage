@@ -72,12 +72,26 @@ exports.get_tokens = function(req, res) {
 
 exports.sendTo = function(req, res) {
   console.log(req.body);
-  res.send(body)
+  var tokenPayload = req.body;
+
+  if (tokenPayload.token) {
+    admin.messaging().sendToDevice(recipients, payload)
+      .then(function(response) {
+        console.log("Successfully sent message:", response);
+        res.send(response);
+      })
+      .catch(function(error) {
+        console.log("Error sending message:", error);
+        res.send(error);
+      });
+  } else {
+    res.send("Missing token!");
+  }
 }
 
 exports.test_send = function(req, res) {
 
-  console.log("[PUSH] Sending rate broadcast to "+req.params.appId);
+  console.log("[PUSH] Sending rate broadcast to " + req.params.appId);
 
   fetchParticipantTokens(req.params.appId, function(err, rates) {
     if (err)
@@ -104,7 +118,7 @@ exports.test_send = function(req, res) {
             recipients.push(ft.token);
           })
 
-          console.log("[PUSH] notifying "+recipients.lenght+" recipients");
+          console.log("[PUSH] notifying " + recipients.lenght + " recipients");
 
           admin.messaging().sendToDevice(recipients, payload)
             .then(function(response) {
