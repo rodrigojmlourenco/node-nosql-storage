@@ -75,7 +75,7 @@ exports.sendTo = function(req, res) {
   var tokenPayload = req.body;
 
   if (tokenPayload.token) {
-    admin.messaging().sendToDevice(recipients, payload)
+    admin.messaging().sendToDevice(payload.token, payload)
       .then(function(response) {
         console.log("Successfully sent message:", response);
         res.send(response);
