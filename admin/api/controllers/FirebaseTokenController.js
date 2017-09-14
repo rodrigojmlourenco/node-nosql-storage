@@ -70,6 +70,8 @@ exports.get_tokens = function(req, res) {
 
 exports.test_send = function(req, res) {
 
+  console.log("[PUSH] Sending rate broadcast to "+req.params.appId);
+
   fetchParticipantTokens(req.params.appId, function(err, rates) {
     if (err)
       res.send(err);
@@ -94,6 +96,8 @@ exports.test_send = function(req, res) {
           toks.forEach(function(ft, i) {
             recipients.push(ft.token);
           })
+
+          console.log("[PUSH] notifying "+recipients.lenght+" recipients");
 
           admin.messaging().sendToDevice(recipients, payload)
             .then(function(response) {
