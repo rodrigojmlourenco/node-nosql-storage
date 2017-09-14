@@ -72,10 +72,15 @@ exports.get_tokens = function(req, res) {
 
 exports.sendTo = function(req, res) {
   console.log(req.body);
-  var payload = req.body;
+  var tokenPayload = req.body;
+  var payload = {
+    data: {
+      RATE_APP: "true"
+    }
+  };
 
-  if (payload.token) {
-    admin.messaging().sendToDevice(payload.token, payload)
+  if (tokenPayload.token) {
+    admin.messaging().sendToDevice(tokenPayload.token, payload)
       .then(function(response) {
         console.log("Successfully sent message:", response);
         res.send(response);
