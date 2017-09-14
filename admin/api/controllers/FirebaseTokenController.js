@@ -126,12 +126,12 @@ exports.notifyAllMissing = function(req, res) {
             recipients.push(ft.token);
           })
 
-          if (recipients.lenght() <= 0) {
+          if (recipients.lenght <= 0) {
             console.log("[BROADCAST] No one to notify");
             res.send();
             return;
           } else {
-            console.log("[BROADCAST] notifying " + recipients.lenght() + " recipients");
+            console.log("[BROADCAST] notifying " + recipients.lenght + " recipients");
 
             admin.messaging().sendToDevice(recipients, payload)
               .then(function(response) {
