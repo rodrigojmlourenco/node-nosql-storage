@@ -104,7 +104,9 @@ exports.notifyAllMissing = function(req, res) {
     else {
       var tokens = [];
       rates.forEach(function(rate, index) {
+        console.log("[BROADCAST] Found token "+rate.token);
         tokens.push(rate.token);
+
       });
 
       fetchTokensDifference(req.params.appId, tokens, function(err, toks) {
@@ -119,7 +121,8 @@ exports.notifyAllMissing = function(req, res) {
           };
 
           var recipients = []
-          toks.forEach(function(ft, i) {
+          tokens.forEach(function(ft, i) {
+            console.log("[BROADCAST] Token "+ft.token+" has not sent survey.");
             recipients.push(ft.token);
           })
 
