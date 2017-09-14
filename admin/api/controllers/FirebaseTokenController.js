@@ -72,9 +72,9 @@ exports.get_tokens = function(req, res) {
 
 exports.sendTo = function(req, res) {
   console.log(req.body);
-  var tokenPayload = req.body;
+  var payload = req.body;
 
-  if (tokenPayload.token) {
+  if (payload.token) {
     admin.messaging().sendToDevice(payload.token, payload)
       .then(function(response) {
         console.log("Successfully sent message:", response);
