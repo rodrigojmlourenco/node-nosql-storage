@@ -121,7 +121,7 @@ exports.notifyAllMissing = function(req, res) {
           };
 
           var recipients = []
-          tokens.forEach(function(ft, i) {
+          toks.forEach(function(ft, i) {
             console.log("[BROADCAST] Token "+ft.token+" has not sent survey.");
             recipients.push(ft.token);
           })
